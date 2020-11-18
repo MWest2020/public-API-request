@@ -1,9 +1,11 @@
 let employees = 12;
 let url = `https://randomuser.me/api/?results=${employees}&nat=US`;
-
 let fetchData = [];
-
 const gallery = document.querySelector('#gallery');
+ 
+
+
+
 
 createSearch();
 // createModal();
@@ -22,7 +24,7 @@ function getData(data, num){
         dataObj.thumbnail = dataResults.picture.large,
         dataObj.firstName = dataResults.name.first,
         dataObj.lastName = dataResults.name.last,
-        dataObj.birthday = dataResults.dob.date, 
+        dataObj.birthday = formatBirthday(dataResults.dob.date), 
         dataObj.phone = formatPhoneNumber(dataResults.cell),
         dataObj.email = dataResults.email,
         dataObj.streetNum = dataResults.location.street.number,
@@ -74,9 +76,9 @@ function generateHTML(num, array){
 document.querySelector('.gallery').addEventListener('click', (e) => {
     if (e.target !== gallery) {
         const card = e.target.closest('.card');
-        console.log(card);
+        
         const cardIndex = card.getAttribute('card-index');
-        console.log(cardIndex);
+        
         createModal(cardIndex)
     }
 })
@@ -84,13 +86,35 @@ document.querySelector('.gallery').addEventListener('click', (e) => {
 
 //Stack overflow https://stackoverflow.com/questions/8358084/regular-expression-to-reformat-a-us-phone-number-in-javascript/8358141
 function formatPhoneNumber(phoneNumberString) {
-    var cleaned = ('' + phoneNumberString).replace(/\D/g, '')
-    var match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/)
+    const cleaned = ('' + phoneNumberString).replace(/\D/g, '')
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/)
     if (match) {
         return '(' + match[1] + ') ' + match[2] + '-' + match[3]
     }
     return null
     }
+
+function formatBirthday(birthdayString) {
+    const cleaned = ('' + birthdayString).replace(/\D/g, '');
+    
+    const str_cleaned = cleaned.toString();
+    
+    const dob = str_cleaned.slice(0,8);
+   
+    var year = Number(dob.substr(0, 4));
+    var month = Number(dob.substr(4, 2));
+    var day = Number(dob.substr(6, 2));
+    
+    const birthday = `${month}/${day}/${year}`;
+    return birthday; 
+}
+    // if (match) {
+    //     return match;
+    // }
+    // return null
+    // }
+
+
 
 function createModal(num){
 
@@ -176,16 +200,18 @@ function search() {
         if(!searchString.length == 0){
             
             for (let i = 0; i < fetchData.length; i ++) {
+                const firstName = fetchData[i].firstName.toUpperCase().includes(searchString);
+                const lastName = fetchData[i].lastName.toUpperCase().includes(searchString); 
                 
-                if (fetchData[i].firstName.toUpperCase().includes(searchString) || fetchData[i].lastName.toUpperCase().includes(searchString) ) {
+                if (firstName || lastName ) {
                 filteredList.push(fetchData[i]);
                 console.log(filteredList);
                 generateHTML(filteredList.length, filteredList);
-                } else {
-                    gallery.innerHTML = `No results found. Please Try again`
+                } else if(filteredList.length === 0){
+                    gallery.innerHTML = 'no results found.'
                 }
-                
-            } 
-
-        } else{generateHTML(employees, fetchData)}
+            }  
+        
+        } else {generateHTML(employees, fetchData)}
+        
     }
