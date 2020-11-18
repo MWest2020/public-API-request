@@ -64,14 +64,6 @@ function generateHTML(num, array){
         
 }
 
-// function loopCards(){
-//     for(let i = 0; i < gallery.children.length; i++){
-//         document.querySelector('.card').addEventListener('click', (event) => {
-//             if(event.composedPath() === 'card)
-//         })
-//     }
-// }
-
 
 document.querySelector('.gallery').addEventListener('click', (e) => {
     if (e.target !== gallery) {
@@ -108,12 +100,7 @@ function formatBirthday(birthdayString) {
     const birthday = `${month}/${day}/${year}`;
     return birthday; 
 }
-    // if (match) {
-    //     return match;
-    // }
-    // return null
-    // }
-
+   
 
 
 function createModal(num){
@@ -123,8 +110,8 @@ function createModal(num){
         
 
         const modal = fetchData[num]; 
-        const prev = modal - 1;
-        const next = modal + 1;   
+        const index = num;
+        console.log(index);   
         
         modalContainer.className = 'modal-container';
         modalContainer.innerHTML = `
@@ -141,7 +128,6 @@ function createModal(num){
                         <p class="modal-text">Birthday: ${modal.birthday}</p>
                     </div>
                 </div>
-
                 // IMPORTANT: Below is only for exceeds tasks 
                 <div class="modal-btn-container">
                     <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
@@ -153,7 +139,22 @@ function createModal(num){
         gallery.after(modalContainer);
         document.getElementById('modal-close-btn').addEventListener('click', () => modalContainer.remove() );
         
-    }
+        document.querySelector('.modal-prev').addEventListener('click', () => {
+            modalContainer.remove();
+            createModal(index - 1);
+        });
+        document.querySelector('.modal-next').addEventListener('click', () => {
+            if(index == 0){
+                modalContainer.remove();
+                createModal(1);
+            }
+            else{modalContainer.remove();
+            createModal(index + 1);
+            }
+        });
+        if(index == 0){document.querySelector('.modal-prev').style.display = 'none';}
+        if(index == 11){document.querySelector('.modal-next').style.display = 'none';}
+}
 
 
 
