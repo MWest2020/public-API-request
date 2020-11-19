@@ -1,21 +1,24 @@
 let employees = 12;
 let url = `https://randomuser.me/api/?results=${employees}&nat=US`;
 let fetchData = [];
+let filteredList = fetchData;
+let index;
 const gallery = document.querySelector('#gallery');
  
-
-
-
-
 createSearch();
-// createModal();
+
+/** 
+* Fetched the data from "https://randomuser.me/api/" 
+*  @url (link) url passed is source data
+*  @res (param) response from api call. res.json() is response passed in JSON format
+*  @data (param) json format passed in getData function.
+*/ 
 
 fetch(url)
     .then(res => res.json())
     .then(data => getData(data, employees))
-    
 
-function getData(data, num){
+    function getData(data, num){
     for(let i = 0 ; i < num; i++){
          
         dataResults = data.results[i];
@@ -39,6 +42,11 @@ function getData(data, num){
     // loopCards();
 }
 
+
+/** 
+*  @num (integer) decides amount of employees from randomuser API
+*  @array (array) response from api call in JSON format (data).
+*/ 
 function generateHTML(num, array){
     gallery.innerHTML = ' '; 
     for(let i = 0 ; i < num; i++){
@@ -64,6 +72,10 @@ function generateHTML(num, array){
         
 }
 
+/** 
+* Event Listener that listens for clicking on a card and shows modal of that card. 
+*/ 
+
 
 document.querySelector('.gallery').addEventListener('click', (e) => {
     if (e.target !== gallery) {
@@ -76,6 +88,10 @@ document.querySelector('.gallery').addEventListener('click', (e) => {
 })
 
 
+/*
+* @phoneNumberString (string) input raw US telephone number to be formatted. 
+*/ 
+
 //Stack overflow https://stackoverflow.com/questions/8358084/regular-expression-to-reformat-a-us-phone-number-in-javascript/8358141
 function formatPhoneNumber(phoneNumberString) {
     const cleaned = ('' + phoneNumberString).replace(/\D/g, '')
@@ -86,32 +102,33 @@ function formatPhoneNumber(phoneNumberString) {
     return null
     }
 
+/* 
+*  @birthdayString (string) similar to formatPhoneNumber, is transform raw data into desired format.
+*
+*/ 
+
 function formatBirthday(birthdayString) {
     const cleaned = ('' + birthdayString).replace(/\D/g, '');
-    
     const str_cleaned = cleaned.toString();
-    
     const dob = str_cleaned.slice(0,8);
-   
-    var year = Number(dob.substr(0, 4));
-    var month = Number(dob.substr(4, 2));
-    var day = Number(dob.substr(6, 2));
-    
+    const year = Number(dob.substr(0, 4));
+    const month = dob.substr(4, 2);
+    const day = dob.substr(6, 2);
     const birthday = `${month}/${day}/${year}`;
     return birthday; 
 }
-   
 
 
+/*
+*   @num (integer) creates a modal, based on a integer passed. The integer is the index of the employee on the page, or search result
+*/ 
 function createModal(num){
 
         
         const modalContainer = document.createElement('div');
-        
-
-        const modal = fetchData[num]; 
-        const index = num;
-        console.log(index);   
+        const modal = filteredList[num]; 
+        index = num;
+         
         
         modalContainer.className = 'modal-container';
         modalContainer.innerHTML = `
@@ -135,10 +152,10 @@ function createModal(num){
                 </div>
                 `;
 
-        
+        //appends modal to DOM
         gallery.after(modalContainer);
+        //event listeners for closing the modal and toggling previous and next employees
         document.getElementById('modal-close-btn').addEventListener('click', () => modalContainer.remove() );
-        
         document.querySelector('.modal-prev').addEventListener('click', () => {
             modalContainer.remove();
             createModal(index - 1);
@@ -152,12 +169,15 @@ function createModal(num){
             createModal(index + 1);
             }
         });
+        //conditional to remove errors and improve UX
         if(index == 0){document.querySelector('.modal-prev').style.display = 'none';}
         if(index == 11){document.querySelector('.modal-next').style.display = 'none';}
 }
 
 
-
+/** 
+*   Creates the search bar and functionality with event listeners that call search() function
+*/ 
 function createSearch(){
     const searchContainer = document.querySelector('.search-container');
     const searchForm = document.createElement('form');
@@ -182,7 +202,7 @@ function createSearch(){
     const searchSubmit = document.createElement('input');
         Object.assign(searchSubmit, {
             type: 'submit',
-            value: '&#x1F50D;',
+            value: 'Submit',
             id : 'search-submit',
             class: 'search-submit',
         })
@@ -191,12 +211,14 @@ function createSearch(){
     searchInput.addEventListener('keyup', (e) => { search()}); 
 }
 
+/** This function iterates over any string that is passed into the searchfield and compares it with the data from the API
+*/
 
 function search() {
    
     const searchString = document.getElementById('search-input').value.toUpperCase();
     
-    let filteredList = [];
+    filteredList = [];
     
         if(!searchString.length == 0){
             
@@ -206,13 +228,10 @@ function search() {
                 
                 if (firstName || lastName ) {
                 filteredList.push(fetchData[i]);
-                console.log(filteredList);
                 generateHTML(filteredList.length, filteredList);
                 } else if(filteredList.length === 0){
                     gallery.innerHTML = 'no results found.'
                 }
             }  
-        
         } else {generateHTML(employees, fetchData)}
-        
-    }
+ }

@@ -14,9 +14,10 @@ html, body {
 }
 
 body {
-    font-family: "Nunito", sans-serif;
+    font-family: "Courier New", Courier, monospace;
     text-align: center;
-    background: rgba(235, 235, 235, 0.9);
+    background: rgb(126, 132, 107);
+
 }
 
 header {
@@ -30,7 +31,7 @@ header {
 
 header h1 {
     font-size: 1.25em;
-    color: rgba(50, 50, 50, 0.9);
+    color: black;
     margin-top: 35px;
 }
 
@@ -75,6 +76,7 @@ header h1 {
     width: 100%;
     max-width: 1200px;
     margin: auto;
+    
 }
   
 .card {
@@ -87,7 +89,7 @@ header h1 {
     max-width: 360px;
     margin: 10px 10px 20px;
     padding: 10px;
-    background: rgba(245, 245, 245, 0.9);
+    background: rgba(165, 174, 158, 0.9);
     border-radius: 0.25em;
     border: 1px solid rgba(50, 50, 50, 0.3);
     transition: .4s ease-out;
@@ -98,7 +100,13 @@ header h1 {
     width: 95px;
     margin: 10px 15px auto 10px;
     border-radius: 50%;
+
 }
+
+.card:hover {
+    transform: scale(1.05); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+
 
 .card-info-container {
     text-align: left;
@@ -156,6 +164,7 @@ header h1 {
     outline: none;
     border-radius: 0.25em;
     border: 1px solid rgba(50, 50, 50, 0.3);
+    
 }
 
 .modal-img {
@@ -248,7 +257,7 @@ header h1 {
 @media (min-width: 1024px) {
 
     .card:hover {
-        background: rgba(255, 255, 255, 1);
+        background: #C3D898;
         border: 1px solid rgba(50, 50, 50, 0.9);
     }
 
