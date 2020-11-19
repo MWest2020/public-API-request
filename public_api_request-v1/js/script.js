@@ -164,9 +164,12 @@ function createModal(num){
             if(index == 0){
                 modalContainer.remove();
                 createModal(1);
-            }
-            else{modalContainer.remove();
-            createModal(index + 1);
+                
+            } else
+            { 
+                
+                modalContainer.remove();
+                createModal(parseInt(index) + 1);
             }
         });
         //conditional to remove errors and improve UX
@@ -178,7 +181,6 @@ function createModal(num){
 /** 
 *   Creates the search bar and functionality with event listeners that call search() function
 */ 
-
 function createSearch(){
     const searchContainer = document.querySelector('.search-container');
     const searchForm = document.createElement('form');
@@ -227,7 +229,7 @@ function search() {
                 const firstName = fetchData[i].firstName.toUpperCase().includes(searchString);
                 const lastName = fetchData[i].lastName.toUpperCase().includes(searchString); 
                 
-                if (firstName || lastName ) {
+                if (firstName || lastName ) { 
                 filteredList.push(fetchData[i]);
                 generateHTML(filteredList.length, filteredList);
                 } else if(filteredList.length === 0){
