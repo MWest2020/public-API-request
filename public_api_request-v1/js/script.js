@@ -178,6 +178,7 @@ function createModal(num){
 /** 
 *   Creates the search bar and functionality with event listeners that call search() function
 */ 
+
 function createSearch(){
     const searchContainer = document.querySelector('.search-container');
     const searchForm = document.createElement('form');
