@@ -1,5 +1,5 @@
 # Public-API-Request
-Have fun getting some data from the [random user API](https://randomuser.me/api/). It was the 5th project from the Team Treehouse Full-Stack Course
+Have fun getting some data from the [random user API](https://randomuser.me/api/). It was the 5th project from the [Team Treehouse Full-Stack Course](https://teamtreehouse.com/home)
 
 ## General Info
 
