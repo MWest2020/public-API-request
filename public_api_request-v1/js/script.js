@@ -167,14 +167,13 @@ function createModal(num){
                 
             } else
             { 
-                
                 modalContainer.remove();
                 createModal(parseInt(index) + 1);
             }
         });
         //conditional to remove errors and improve UX
         if(index == 0){document.querySelector('.modal-prev').style.display = 'none';}
-        if(index == 11){document.querySelector('.modal-next').style.display = 'none';}
+        if(index == filteredList.length - 1){document.querySelector('.modal-next').style.display = 'none';}
 }
 
 
