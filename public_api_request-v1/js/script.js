@@ -17,6 +17,7 @@ createSearch();
 fetch(url)
     .then(res => res.json())
     .then(data => getData(data, employees))
+    .catch(Error => console.error())
 
     function getData(data, num){
     for(let i = 0 ; i < num; i++){
@@ -80,8 +81,8 @@ function generateHTML(num, array){
 document.querySelector('.gallery').addEventListener('click', (e) => {
     if (e.target !== gallery) {
         const card = e.target.closest('.card');
-        
-        const cardIndex = card.getAttribute('card-index');
+        //Important to parse to integer here, for later convience toggling modals.
+        const cardIndex = parseInt(card.getAttribute('card-index'));
         
         createModal(cardIndex)
     }
@@ -168,7 +169,7 @@ function createModal(num){
             } else
             { 
                 modalContainer.remove();
-                createModal(parseInt(index) + 1);
+                createModal((index) + 1);
             }
         });
         //conditional to remove errors and improve UX
@@ -201,15 +202,15 @@ function createSearch(){
 
     searchForm.appendChild(searchInput);  
     
-    const searchSubmit = document.createElement('input');
-        Object.assign(searchSubmit, {
-            type: 'submit',
-            value: 'Submit',
-            id : 'search-submit',
-            class: 'search-submit',
-        })
-    searchForm.appendChild(searchSubmit);
-    searchSubmit.addEventListener('click', (e) => { search()});
+    // const searchSubmit = document.createElement('input');
+    //     Object.assign(searchSubmit, {
+    //         type: 'submit',
+    //         value: 'Submit',
+    //         id : 'search-submit',
+    //         class: 'search-submit',
+    //     })
+    // searchForm.appendChild(searchSubmit);
+    // searchSubmit.addEventListener('click', (e) => { search()});
     searchInput.addEventListener('keyup', (e) => { search()}); 
 }
 
